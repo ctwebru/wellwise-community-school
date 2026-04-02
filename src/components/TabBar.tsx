@@ -13,7 +13,7 @@ const TabBar = ({ activeTab, onTabChange }: TabBarProps) => {
   const isAdmin = user?.role === 'admin';
 
   const tabs = [
-    { id: 'posts', label: 'Посты', icon: Home },
+    { id: 'posts', label: 'Статьи', icon: Home },
     { id: 'school', label: 'Школа', icon: GraduationCap },
     { id: 'favorites', label: 'Избранное', icon: Bookmark },
     { id: 'profile', label: 'Профиль', icon: User },

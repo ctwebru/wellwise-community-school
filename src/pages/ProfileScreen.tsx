@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { useAuth, UserRole } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import {
-  LogOut, Crown, CrownIcon, Bell, BellOff, ChevronRight,
+  LogOut, Crown, Bell, BellOff,
   Shield, User, CheckCircle2
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import doctorPhoto from '@/assets/doctor-photo.png';
 
 const ProfileScreen = () => {
   const { user, logout, setDemoRole, setSubscription } = useAuth();
@@ -31,11 +32,11 @@ const ProfileScreen = () => {
   return (
     <div className="min-h-screen bg-background pb-20">
       <div className="px-5 pt-6">
-        <h1 className="text-2xl font-bold text-foreground mb-6">Профиль</h1>
+        <h1 className="text-2xl font-bold text-foreground mb-6 font-serif">Профиль</h1>
 
         {/* User info */}
         <div className="flex items-center gap-4 mb-6">
-          <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
+          <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
             <User className="w-6 h-6 text-primary" />
           </div>
           <div>
@@ -47,33 +48,42 @@ const ProfileScreen = () => {
           </div>
         </div>
 
+        {/* Doctor card */}
+        <div className="rounded-2xl bg-gradient-to-r from-primary/8 to-primary/3 border border-primary/15 p-4 mb-6 flex items-center gap-4">
+          <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-primary/20 flex-shrink-0">
+            <img src={doctorPhoto} alt="Врач" className="w-full h-full object-cover object-top" />
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-foreground">Яна Прудникова</p>
+            <p className="text-xs text-muted-foreground">Ваш врач • гастроэнтеролог</p>
+          </div>
+        </div>
+
         {/* Subscription status */}
         <div className={cn(
           'rounded-2xl p-5 mb-6 border',
           user.subscriptionActive
-            ? 'bg-premium-surface border-premium-border'
+            ? 'bg-primary/5 border-primary/20'
             : 'bg-card border-border'
         )}>
           <div className="flex items-center gap-2 mb-2">
-            <Crown className={cn('w-5 h-5', user.subscriptionActive ? 'text-premium' : 'text-muted-foreground')} />
+            <Crown className={cn('w-5 h-5', user.subscriptionActive ? 'text-primary' : 'text-muted-foreground')} />
             <h3 className="text-base font-semibold text-foreground">
               {user.subscriptionActive ? 'Подписка активна' : 'Нет подписки'}
             </h3>
           </div>
 
           {user.subscriptionActive && expiresDate ? (
-            <div>
-              <p className="text-sm text-muted-foreground flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-success" />
-                Действует до {expiresDate}
-              </p>
-            </div>
+            <p className="text-sm text-muted-foreground flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 text-success" />
+              Действует до {expiresDate}
+            </p>
           ) : (
             <div>
               <p className="text-sm text-muted-foreground mb-3">
-                Оформите подписку для доступа к Школе здорового человека
+                Оформите подписку для доступа к Школе здоровья
               </p>
-              <Button variant="premium" size="sm" onClick={() => setSubscription(true)}>
+              <Button size="sm" onClick={() => setSubscription(true)}>
                 Оформить подписку
               </Button>
             </div>
@@ -90,7 +100,7 @@ const ProfileScreen = () => {
               <div className="flex-1">
                 <h3 className="text-sm font-semibold text-foreground mb-1">Включить уведомления?</h3>
                 <p className="text-xs text-muted-foreground mb-3">
-                  Узнавайте первыми о новых постах и важных обновлениях
+                  Узнавайте первыми о новых статьях и обновлениях
                 </p>
                 <div className="flex gap-2">
                   <Button
@@ -113,7 +123,7 @@ const ProfileScreen = () => {
           </div>
         )}
 
-        {/* Settings list */}
+        {/* Settings */}
         <div className="space-y-1">
           <button
             onClick={() => setNotificationsEnabled(!notificationsEnabled)}
@@ -164,7 +174,7 @@ const ProfileScreen = () => {
               className={cn(
                 'flex-1 px-3 py-2 rounded-xl text-xs font-medium border transition-colors',
                 user.subscriptionActive
-                  ? 'bg-premium text-premium-foreground border-premium'
+                  ? 'bg-primary text-primary-foreground border-primary'
                   : 'bg-card border-border text-muted-foreground'
               )}
             >

@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
-        serif: ["Merriweather", "Georgia", "serif"],
+        sans: ["DM Sans", "system-ui", "-apple-system", "sans-serif"],
+        serif: ["Lora", "Georgia", "serif"],
       },
       fontSize: {
         "reading": ["1.0625rem", { lineHeight: "1.75", letterSpacing: "-0.01em" }],

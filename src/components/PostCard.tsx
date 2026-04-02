@@ -22,7 +22,7 @@ const PostCard = ({ post, onOpen, onToggleFavorite }: PostCardProps) => {
     >
       {post.imageUrl && (
         <div className="aspect-[2/1] bg-muted overflow-hidden">
-          <div className="w-full h-full bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center">
+          <div className="w-full h-full bg-gradient-to-br from-primary/8 to-primary/3 flex items-center justify-center">
             <span className="text-4xl">📖</span>
           </div>
         </div>
@@ -43,7 +43,7 @@ const PostCard = ({ post, onOpen, onToggleFavorite }: PostCardProps) => {
           )}
         </div>
 
-        <h3 className="text-base font-semibold text-foreground leading-snug mb-1.5">
+        <h3 className="text-base font-semibold text-foreground leading-snug mb-1.5 font-serif">
           {post.title}
         </h3>
         <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
@@ -69,7 +69,7 @@ const PostCard = ({ post, onOpen, onToggleFavorite }: PostCardProps) => {
             onClick={(e) => { e.stopPropagation(); onToggleFavorite(post.id); }}
             className={cn(
               'p-1.5 rounded-full transition-colors',
-              post.isFavorited ? 'text-accent' : 'text-muted-foreground hover:text-accent'
+              post.isFavorited ? 'text-primary' : 'text-muted-foreground hover:text-primary'
             )}
           >
             {post.isFavorited ? (

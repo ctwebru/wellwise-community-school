@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MOCK_POSTS, Post } from '@/data/mockData';
 import PostCard from '@/components/PostCard';
 import PostDetail from '@/components/PostDetail';
+import logoSvg from '@/assets/logo.svg';
 
 const PostsFeed = () => {
   const [posts, setPosts] = useState<Post[]>(
@@ -29,8 +30,9 @@ const PostsFeed = () => {
   return (
     <div className="min-h-screen bg-background pb-20">
       <div className="px-4 pt-6 pb-2">
-        <h1 className="text-2xl font-bold text-foreground">Посты</h1>
-        <p className="text-sm text-muted-foreground mt-1">Полезные материалы для вашего здоровья</p>
+        <img src={logoSvg} alt="Яна Прудникова" className="h-6 mb-3 opacity-70" />
+        <h1 className="text-2xl font-bold text-foreground font-serif">Статьи</h1>
+        <p className="text-sm text-muted-foreground mt-1">Полезные материалы о здоровье</p>
       </div>
 
       <div className="px-4 space-y-3 mt-2">
