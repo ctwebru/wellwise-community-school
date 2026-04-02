@@ -4,9 +4,14 @@ import { MOCK_POSTS, Post } from '@/data/mockData';
 import PostCard from '@/components/PostCard';
 import PostDetail from '@/components/PostDetail';
 import { Button } from '@/components/ui/button';
-import { Lock, GraduationCap, CheckCircle2, ExternalLink, Loader2, Sparkles } from 'lucide-react';
+import { Lock, ArrowLeft, CheckCircle2, ExternalLink, Loader2, Sparkles, Crown } from 'lucide-react';
+import heroSchool from '@/assets/hero-school.jpg';
 
-const SchoolScreen = () => {
+interface SchoolScreenProps {
+  onBack?: () => void;
+}
+
+const SchoolScreen = ({ onBack }: SchoolScreenProps) => {
   const { user, setSubscription } = useAuth();
   const isSubscribed = user?.subscriptionActive;
   const [posts, setPosts] = useState<Post[]>(
@@ -43,51 +48,61 @@ const SchoolScreen = () => {
     );
   }
 
+  if (checkingPayment) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6">
+        <Loader2 className="w-10 h-10 text-primary animate-spin mb-4" />
+        <p className="text-base font-medium text-foreground">Проверяем оплату...</p>
+        <p className="text-sm text-muted-foreground mt-1">Это займёт несколько секунд</p>
+      </div>
+    );
+  }
+
+  if (paymentSuccess) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6 animate-fade-in">
+        <div className="w-20 h-20 rounded-full bg-success/10 flex items-center justify-center mb-4">
+          <CheckCircle2 className="w-10 h-10 text-success" />
+        </div>
+        <h2 className="text-xl font-bold text-foreground font-serif">Подписка активирована!</h2>
+        <p className="text-sm text-muted-foreground mt-2 text-center">
+          Добро пожаловать в Школу здорового человека
+        </p>
+      </div>
+    );
+  }
+
+  // Paywall state
   if (!isSubscribed) {
-    if (checkingPayment) {
-      return (
-        <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6">
-          <Loader2 className="w-10 h-10 text-primary animate-spin mb-4" />
-          <p className="text-base font-medium text-foreground">Проверяем оплату...</p>
-          <p className="text-sm text-muted-foreground mt-1">Это займёт несколько секунд</p>
-        </div>
-      );
-    }
-
-    if (paymentSuccess) {
-      return (
-        <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6 animate-fade-in">
-          <div className="w-20 h-20 rounded-full bg-success/10 flex items-center justify-center mb-4">
-            <CheckCircle2 className="w-10 h-10 text-success" />
-          </div>
-          <h2 className="text-xl font-bold text-foreground font-serif">Подписка активирована!</h2>
-          <p className="text-sm text-muted-foreground mt-2 text-center">
-            Добро пожаловать в Школу здорового человека
-          </p>
-        </div>
-      );
-    }
-
     return (
       <div className="min-h-screen bg-background pb-20">
-        <div className="px-5 pt-6">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
-              <GraduationCap className="w-6 h-6 text-primary" />
+        {/* Hero */}
+        <div className="relative h-[260px] overflow-hidden">
+          <img src={heroSchool} alt="" className="absolute inset-0 w-full h-full object-cover" width={960} height={540} />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/10" />
+          {onBack && (
+            <button
+              onClick={onBack}
+              className="absolute top-5 left-4 z-10 w-9 h-9 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center"
+            >
+              <ArrowLeft className="w-5 h-5 text-white" />
+            </button>
+          )}
+          <div className="absolute bottom-0 left-0 right-0 px-5 pb-5 z-10">
+            <div className="flex items-center gap-2 mb-1">
+              <Lock className="w-4 h-4 text-white/80" />
+              <span className="text-white/80 text-xs font-medium">Доступно по подписке</span>
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-foreground font-serif">Школа здоровья</h1>
-              <p className="text-sm text-muted-foreground">Премиум контент по подписке</p>
-            </div>
+            <h1 className="text-white text-2xl font-bold font-serif">Школа здоровья</h1>
+            <p className="text-white/70 text-sm mt-0.5">Премиум контент от врача</p>
           </div>
+        </div>
 
-          <div className="rounded-2xl border border-primary/20 bg-gradient-to-b from-primary/5 to-card p-6 mb-6 animate-fade-in">
-            <div className="flex items-center gap-2 mb-4">
-              <Lock className="w-5 h-5 text-primary" />
-              <h2 className="text-lg font-bold text-foreground font-serif">Контент по подписке</h2>
-            </div>
-
-            <div className="space-y-3 mb-6">
+        <div className="px-5 pt-5">
+          {/* Benefits */}
+          <div className="rounded-2xl border border-primary/20 bg-gradient-to-b from-primary/5 to-card p-5 mb-5">
+            <h2 className="text-base font-bold text-foreground mb-3 font-serif">Что входит в подписку</h2>
+            <div className="space-y-2.5 mb-5">
               {[
                 'Программы восстановления здоровья',
                 'Подробные разборы анализов',
@@ -101,16 +116,14 @@ const SchoolScreen = () => {
               ))}
             </div>
 
-            <div className="space-y-2 mb-6">
+            {/* Plans */}
+            <div className="space-y-2 mb-5">
               {[
                 { period: '1 месяц', price: '990 ₽', tag: '' },
                 { period: '6 месяцев', price: '4 490 ₽', tag: 'Выгодно' },
                 { period: '1 год', price: '7 990 ₽', tag: 'Лучшая цена' },
               ].map((plan) => (
-                <div
-                  key={plan.period}
-                  className="flex items-center justify-between p-3.5 rounded-xl border border-border bg-card"
-                >
+                <div key={plan.period} className="flex items-center justify-between p-3.5 rounded-xl border border-border bg-card">
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-medium text-foreground">{plan.period}</span>
                     {plan.tag && (
@@ -124,26 +137,20 @@ const SchoolScreen = () => {
               ))}
             </div>
 
-            <Button
-              onClick={simulatePayment}
-              className="w-full h-12 rounded-xl text-base"
-            >
+            <Button onClick={simulatePayment} className="w-full h-12 rounded-xl text-base">
               Оформить подписку
               <ExternalLink className="w-4 h-4 ml-1" />
             </Button>
-
             <p className="text-center text-xs text-muted-foreground mt-3">
               Оплата на защищённом сайте. Отмена в любой момент.
             </p>
           </div>
 
+          {/* Locked posts preview */}
           <h3 className="text-base font-semibold text-foreground mb-3 font-serif">Доступно по подписке</h3>
-          <div className="space-y-3 opacity-60">
+          <div className="space-y-3 opacity-50">
             {posts.map((post) => (
-              <div
-                key={post.id}
-                className="bg-card rounded-2xl border border-border p-4 relative overflow-hidden"
-              >
+              <div key={post.id} className="bg-card rounded-2xl border border-border p-4 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-t from-card via-card/80 to-transparent z-10" />
                 <div className="relative z-0">
                   <h3 className="text-base font-semibold text-foreground mb-1 font-serif">{post.title}</h3>
@@ -160,25 +167,32 @@ const SchoolScreen = () => {
     );
   }
 
+  // Subscribed state
   return (
     <div className="min-h-screen bg-background pb-20">
-      <div className="px-4 pt-6 pb-2">
-        <div className="flex items-center gap-2">
-          <GraduationCap className="w-5 h-5 text-primary" />
-          <h1 className="text-2xl font-bold text-foreground font-serif">Школа</h1>
-          <Sparkles className="w-4 h-4 text-primary" />
+      <div className="relative h-[200px] overflow-hidden">
+        <img src={heroSchool} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" width={960} height={540} />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+        {onBack && (
+          <button
+            onClick={onBack}
+            className="absolute top-5 left-4 z-10 w-9 h-9 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center"
+          >
+            <ArrowLeft className="w-5 h-5 text-white" />
+          </button>
+        )}
+        <div className="absolute bottom-0 left-0 right-0 px-5 pb-5 z-10">
+          <div className="flex items-center gap-2">
+            <h1 className="text-white text-2xl font-bold font-serif">Школа</h1>
+            <Sparkles className="w-4 h-4 text-primary" />
+          </div>
+          <p className="text-white/70 text-sm mt-0.5">Эксклюзивный контент для подписчиков</p>
         </div>
-        <p className="text-sm text-muted-foreground mt-1">Эксклюзивный контент для подписчиков</p>
       </div>
 
-      <div className="px-4 space-y-3 mt-2">
+      <div className="px-4 space-y-3 mt-4">
         {posts.map((post) => (
-          <PostCard
-            key={post.id}
-            post={post}
-            onOpen={setSelectedPost}
-            onToggleFavorite={toggleFavorite}
-          />
+          <PostCard key={post.id} post={post} onOpen={setSelectedPost} onToggleFavorite={toggleFavorite} />
         ))}
       </div>
     </div>

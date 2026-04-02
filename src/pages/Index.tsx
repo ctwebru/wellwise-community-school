@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import AuthScreen from '@/pages/AuthScreen';
+import HomePage from '@/pages/HomePage';
 import PostsFeed from '@/pages/PostsFeed';
 import SchoolScreen from '@/pages/SchoolScreen';
 import FavoritesScreen from '@/pages/FavoritesScreen';
@@ -10,7 +11,7 @@ import TabBar from '@/components/TabBar';
 
 const Index = () => {
   const { isAuthenticated, user } = useAuth();
-  const [activeTab, setActiveTab] = useState('posts');
+  const [activeTab, setActiveTab] = useState('home');
 
   if (!isAuthenticated) {
     return <AuthScreen />;
@@ -18,18 +19,20 @@ const Index = () => {
 
   const renderScreen = () => {
     switch (activeTab) {
+      case 'home':
+        return <HomePage onNavigate={setActiveTab} />;
       case 'posts':
-        return <PostsFeed />;
+        return <PostsFeed onBack={() => setActiveTab('home')} />;
       case 'school':
-        return <SchoolScreen />;
+        return <SchoolScreen onBack={() => setActiveTab('home')} />;
       case 'favorites':
         return <FavoritesScreen />;
       case 'profile':
         return <ProfileScreen />;
       case 'admin':
-        return user?.role === 'admin' ? <AdminScreen /> : <PostsFeed />;
+        return user?.role === 'admin' ? <AdminScreen /> : <HomePage onNavigate={setActiveTab} />;
       default:
-        return <PostsFeed />;
+        return <HomePage onNavigate={setActiveTab} />;
     }
   };
 
