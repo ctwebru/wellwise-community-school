@@ -71,7 +71,7 @@ const PostDetail = ({ post, onBack, onToggleFavorite }: PostDetailProps) => {
               onClick={() => onToggleFavorite(post.id)}
               className={cn(
                 'p-2 rounded-full',
-                post.isFavorited ? 'text-accent' : 'text-muted-foreground'
+                post.isFavorited ? 'text-primary' : 'text-muted-foreground'
               )}
             >
               {post.isFavorited ? <BookmarkCheck className="w-5 h-5" /> : <Bookmark className="w-5 h-5" />}
@@ -83,28 +83,26 @@ const PostDetail = ({ post, onBack, onToggleFavorite }: PostDetailProps) => {
       {/* Content */}
       <div className="px-5 pt-6 pb-32 max-w-lg mx-auto">
         {post.section === 'school' && (
-          <span className="inline-block text-xs font-semibold bg-premium/10 text-premium px-2.5 py-1 rounded-full mb-3">
-            Школа здорового человека
+          <span className="inline-block text-xs font-semibold bg-primary/10 text-primary px-2.5 py-1 rounded-full mb-3">
+            Школа здоровья
           </span>
         )}
 
-        <h1 className="text-2xl font-bold text-foreground leading-tight mb-2">
+        <h1 className="text-2xl font-bold text-foreground leading-tight mb-2 font-serif">
           {post.title}
         </h1>
 
         <p className="text-sm text-muted-foreground mb-6">{date}</p>
 
-        {/* Image placeholder */}
         {post.imageUrl !== undefined && (
           <div className="rounded-xl bg-muted overflow-hidden aspect-video mb-6 flex items-center justify-center">
             <div className="text-center">
               <span className="text-5xl block mb-2">🏥</span>
-              <span className="text-sm text-muted-foreground">Иллюстрация к посту</span>
+              <span className="text-sm text-muted-foreground">Иллюстрация к статье</span>
             </div>
           </div>
         )}
 
-        {/* Video placeholder */}
         {post.videoUrl && (
           <div className="rounded-xl bg-foreground/5 overflow-hidden aspect-video mb-6 flex items-center justify-center">
             <div className="w-14 h-14 rounded-full bg-primary/90 flex items-center justify-center">
@@ -113,7 +111,6 @@ const PostDetail = ({ post, onBack, onToggleFavorite }: PostDetailProps) => {
           </div>
         )}
 
-        {/* Article body */}
         <div className="text-reading text-foreground space-y-4">
           {post.content.split('\n\n').map((paragraph, i) => (
             <p key={i} className={cn(paragraph.startsWith('**') && 'font-semibold')}>
@@ -134,7 +131,7 @@ const PostDetail = ({ post, onBack, onToggleFavorite }: PostDetailProps) => {
                   className={cn(
                     'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm border transition-all',
                     liked && emoji === '❤️'
-                      ? 'bg-accent/10 border-accent/30 text-accent'
+                      ? 'bg-primary/10 border-primary/30 text-primary'
                       : 'bg-card border-border text-muted-foreground hover:border-primary/30'
                   )}
                 >
@@ -149,7 +146,7 @@ const PostDetail = ({ post, onBack, onToggleFavorite }: PostDetailProps) => {
         {/* Comments */}
         {post.commentsEnabled && (
           <div className="mt-8 pt-6 border-t border-border">
-            <h3 className="text-base font-semibold text-foreground mb-4">
+            <h3 className="text-base font-semibold text-foreground mb-4 font-serif">
               Комментарии {comments.filter(c => !c.isHidden).length > 0 && `(${comments.filter(c => !c.isHidden).length})`}
             </h3>
 
