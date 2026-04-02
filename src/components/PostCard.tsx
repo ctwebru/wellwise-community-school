@@ -7,20 +7,52 @@ interface PostCardProps {
   post: Post;
   onOpen: (post: Post) => void;
   onToggleFavorite: (id: string) => void;
+  variant?: 'horizontal' | 'vertical';
 }
 
-const PostCard = ({ post, onOpen, onToggleFavorite }: PostCardProps) => {
+const PostCard = ({ post, onOpen, onToggleFavorite, variant = 'vertical' }: PostCardProps) => {
   const totalReactions = post.reactions.reduce((sum, r) => sum + r.count, 0);
   const date = post.publishedAt
     ? new Date(post.publishedAt).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' })
     : 'Черновик';
+
+  if (variant === 'horizontal') {
+    return (
+      <article
+        className="flex gap-3 bg-card rounded-2xl border border-border overflow-hidden p-3 cursor-pointer hover:shadow-card-hover transition-shadow animate-fade-in"
+        onClick={() => onOpen(post)}
+      >
+        {/* Thumbnail */}
+        <div className="w-[110px] h-[110px] rounded-xl bg-gradient-to-br from-primary/8 to-primary/3 flex items-center justify-center flex-shrink-0 overflow-hidden">
+          <span className="text-3xl">📖</span>
+        </div>
+        <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
+          <div>
+            <h3 className="text-sm font-semibold text-foreground leading-snug line-clamp-2 font-serif">
+              {post.title}
+            </h3>
+            <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{post.excerpt}</p>
+          </div>
+          <div className="flex items-center justify-between mt-2">
+            <span className="text-xs text-muted-foreground">{date}</span>
+            <button
+              onClick={(e) => { e.stopPropagation(); onToggleFavorite(post.id); }}
+              className={cn('p-1', post.isFavorited ? 'text-primary' : 'text-muted-foreground')}
+            >
+              {post.isFavorited ? <BookmarkCheck className="w-4 h-4" /> : <Bookmark className="w-4 h-4" />}
+            </button>
+          </div>
+        </div>
+      </article>
+    );
+  }
 
   return (
     <article
       className="bg-card rounded-2xl border border-border overflow-hidden shadow-card hover:shadow-card-hover transition-shadow animate-fade-in cursor-pointer"
       onClick={() => onOpen(post)}
     >
-      {post.imageUrl && (
+      {post.imageUrl !== undefined && (
         <div className="aspect-[2/1] bg-muted overflow-hidden">
           <div className="w-full h-full bg-gradient-to-br from-primary/8 to-primary/3 flex items-center justify-center">
             <span className="text-4xl">📖</span>
@@ -72,11 +104,7 @@ const PostCard = ({ post, onOpen, onToggleFavorite }: PostCardProps) => {
               post.isFavorited ? 'text-primary' : 'text-muted-foreground hover:text-primary'
             )}
           >
-            {post.isFavorited ? (
-              <BookmarkCheck className="w-4 h-4" />
-            ) : (
-              <Bookmark className="w-4 h-4" />
-            )}
+            {post.isFavorited ? <BookmarkCheck className="w-4 h-4" /> : <Bookmark className="w-4 h-4" />}
           </button>
         </div>
       </div>
