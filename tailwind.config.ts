@@ -14,8 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["DM Sans", "system-ui", "-apple-system", "sans-serif"],
-        serif: ["Lora", "Georgia", "serif"],
+        sans: ["Manrope", "system-ui", "-apple-system", "sans-serif"],
+        heading: ["Sora", "system-ui", "sans-serif"],
+        serif: ["Sora", "system-ui", "sans-serif"],
       },
       fontSize: {
         "reading": ["1.0625rem", { lineHeight: "1.75", letterSpacing: "-0.01em" }],
@@ -60,9 +61,16 @@ export default {
           surface: "hsl(var(--premium-surface))",
           border: "hsl(var(--premium-border))",
         },
-        success: "hsl(var(--success))",
         warning: "hsl(var(--warning))",
         info: "hsl(var(--info))",
+        overlay: {
+          foreground: "hsl(var(--overlay-foreground))",
+          muted: "hsl(var(--overlay-muted))",
+        },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
