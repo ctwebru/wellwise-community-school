@@ -61,7 +61,6 @@ export default {
           surface: "hsl(var(--premium-surface))",
           border: "hsl(var(--premium-border))",
         },
-        success: "hsl(var(--success))",
         warning: "hsl(var(--warning))",
         info: "hsl(var(--info))",
         overlay: {

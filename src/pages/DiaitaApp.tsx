@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowRight, Bell, Bookmark, CalendarDays, Check, ChevronRigh
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import DiaitaTabBar from '@/components/DiaitaTabBar';
-import { calendarDays, questions, type AccessState, type MainTab, type Screen } from '@/data/diaitaData';
+import { calendarDays, goals, questions, type AccessState, type MainTab, type Screen } from '@/data/diaitaData';
 import breathing from '@/assets/diaita-breathing.jpg';
 import nutrition from '@/assets/diaita-nutrition.jpg';
 import movement from '@/assets/diaita-movement.jpg';
@@ -21,6 +21,21 @@ const SectionTitle = ({ number, title, action, onAction }: { number?: string; ti
     {action && <Button variant="link" onClick={onAction} className="h-auto shrink-0 px-0 text-xs">{action} <ArrowRight /></Button>}
   </div>
 );
+
+function Onboarding({ open }: { open: (s: Screen) => void }) {
+  return <main className="relative flex min-h-screen flex-col overflow-hidden bg-foreground text-background"><img src={movement} alt="Ежедневное движение в городе" className="absolute inset-0 h-full w-full object-cover opacity-60" width={1200} height={912} /><div className="absolute inset-0 bg-hero-overlay" /><div className="relative mt-auto px-5 pb-10"><Eyebrow>DIAITA</Eyebrow><h1 className="mt-3 max-w-[340px] font-heading text-4xl font-extrabold leading-tight">Здоровье становится понятнее, когда есть следующий шаг</h1><p className="mt-4 max-w-[330px] text-sm leading-relaxed text-overlay-muted">Расскажите немного о себе — мы соберём персональный ритм без диагнозов и жёстких обещаний.</p><Button className="mt-7 w-full" onClick={() => open('goals')}>Начать <ArrowRight /></Button><Button variant="ghost" onClick={() => open('home')} className="mt-2 w-full text-background hover:bg-background/10 hover:text-background">Посмотреть приложение</Button></div></main>;
+}
+
+function Goals({ back, open }: { back: () => void; open: (s: Screen) => void }) {
+  const [selected, setSelected] = useState<string[]>(['Больше энергии']);
+  const toggle = (goal: string) => setSelected(current => current.includes(goal) ? current.filter(item => item !== goal) : [...current, goal]);
+  return <main className="flex min-h-screen flex-col px-5 pb-8 pt-6 safe-top"><Back onClick={back} /><div className="mt-10"><Eyebrow>Шаг 1 из 2</Eyebrow><h1 className="mt-3 font-heading text-3xl font-semibold">Что для вас сейчас важнее?</h1><p className="mt-3 text-sm text-muted-foreground">Можно выбрать несколько целей и изменить их позже.</p></div><div className="mt-9 space-y-3">{goals.map(goal => <Button key={goal} variant={selected.includes(goal) ? 'default' : 'outline'} onClick={() => toggle(goal)} className="h-14 w-full justify-between"><span>{goal}</span>{selected.includes(goal) && <Check />}</Button>)}</div><Button disabled={!selected.length} className="mt-auto w-full" onClick={() => open('health-profile')}>Продолжить <ArrowRight /></Button></main>;
+}
+
+function HealthProfile({ back, open }: { back: () => void; open: (s: Screen) => void }) {
+  const [name, setName] = useState('Мария');
+  return <main className="flex min-h-screen flex-col px-5 pb-8 pt-6 safe-top"><Back onClick={back} /><div className="mt-10"><Eyebrow>Шаг 2 из 2</Eyebrow><h1 className="mt-3 font-heading text-3xl font-semibold">Базовые данные</h1><p className="mt-3 text-sm leading-relaxed text-muted-foreground">Они нужны только для более уместных рекомендаций. Профиль здоровья можно дополнить позже.</p></div><div className="mt-9 space-y-5"><div><label htmlFor="name" className="editorial-label">Имя</label><Input id="name" value={name} onChange={event => setName(event.target.value)} className="mt-2 h-12" /></div><div><label htmlFor="birth" className="editorial-label">Дата рождения</label><Input id="birth" type="date" defaultValue="1990-06-15" className="mt-2 h-12" /></div><div><label htmlFor="city" className="editorial-label">Город</label><Input id="city" defaultValue="Москва" className="mt-2 h-12" /></div></div><div className="mt-auto pt-8"><Button disabled={!name} className="w-full" onClick={() => open('questionnaire')}>Перейти к анкете <ArrowRight /></Button><Button variant="ghost" className="mt-2 w-full" onClick={() => open('home')}>Заполнить позже</Button></div></main>;
+}
 
 function Home({ open }: { open: (s: Screen) => void }) {
   return <main className="pb-24">
