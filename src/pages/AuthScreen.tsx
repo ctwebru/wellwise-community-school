@@ -3,8 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/contexts/AuthContext';
 import { Mail, ArrowRight, Loader2 } from 'lucide-react';
-import doctorPhoto from '@/assets/doctor-photo.png';
-import logoSvg from '@/assets/logo.svg';
+import breathing from '@/assets/diaita-breathing.jpg';
 
 type AuthStep = 'email' | 'code';
 
@@ -47,36 +46,24 @@ const AuthScreen = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col safe-top safe-bottom">
-      {/* Hero section with doctor photo */}
-      <div className="relative bg-gradient-to-b from-primary/8 to-background pt-10 pb-8 px-6">
-        <div className="flex flex-col items-center animate-fade-in">
-          {/* Logo */}
-          <img src={logoSvg} alt="Яна Прудникова" className="h-8 mb-6 opacity-80" />
-
-          {/* Doctor photo */}
-          <div className="w-28 h-28 rounded-full overflow-hidden border-[3px] border-primary/20 shadow-elevated mb-4">
-            <img
-              src={doctorPhoto}
-              alt="Врач Яна Прудникова"
-              className="w-full h-full object-cover object-top"
-            />
-          </div>
-
-          <h1 className="text-xl font-bold text-foreground font-serif">Яна Прудникова</h1>
-          <p className="text-sm text-muted-foreground mt-1 text-center max-w-[260px]">
-            Врач гастроэнтеролог, диетолог, превентолог
-          </p>
+    <div className="min-h-screen bg-background flex flex-col safe-bottom">
+      <div className="relative h-[46vh] min-h-[340px] overflow-hidden">
+        <img src={breathing} alt="Спокойная дыхательная практика" className="h-full w-full object-cover" width={1200} height={1504} />
+        <div className="absolute inset-0 bg-hero-overlay" />
+        <div className="absolute inset-x-0 bottom-0 px-6 pb-7 text-overlay-foreground">
+          <p className="editorial-label text-primary">Персональный ритм здоровья</p>
+          <h1 className="mt-2 font-heading text-4xl font-extrabold">DIAITA</h1>
+          <p className="mt-2 max-w-[290px] text-sm text-overlay-muted">Понимайте своё состояние и превращайте рекомендации в простые действия.</p>
         </div>
       </div>
 
       {/* Form section */}
-      <div className="flex-1 flex flex-col justify-center px-6 pb-8 -mt-2">
+      <div className="flex-1 flex flex-col justify-center px-6 py-8">
         <div className="animate-fade-in">
           {step === 'email' ? (
             <form onSubmit={handleEmailSubmit} className="space-y-4">
               <div className="text-center mb-6">
-                <h2 className="text-lg font-semibold text-foreground">Вход в приложение</h2>
+                <h2 className="font-heading text-xl font-semibold text-foreground">Войти в DIAITA</h2>
                 <p className="text-sm text-muted-foreground mt-1">
                   Введите email для получения кода
                 </p>
@@ -90,7 +77,7 @@ const AuthScreen = () => {
                     placeholder="your@email.com"
                     value={email}
                     onChange={(e) => { setEmail(e.target.value); setError(''); }}
-                    className="pl-10 h-12 rounded-xl bg-card border-border text-base"
+                    className="pl-10 h-12 rounded-sm bg-card border-border text-base"
                     autoFocus
                   />
                 </div>
@@ -103,7 +90,7 @@ const AuthScreen = () => {
               <Button
                 type="submit"
                 disabled={loading || !email}
-                className="w-full h-12 rounded-xl text-base font-semibold"
+                className="w-full h-12 rounded-sm text-base font-semibold"
               >
                 {loading ? (
                   <Loader2 className="w-5 h-5 animate-spin" />
@@ -136,7 +123,7 @@ const AuthScreen = () => {
                   placeholder="0000"
                   value={code}
                   onChange={(e) => { setCode(e.target.value.replace(/\D/g, '')); setError(''); }}
-                  className="h-14 rounded-xl bg-card border-border text-center text-2xl tracking-[0.5em] font-semibold"
+                  className="h-14 rounded-sm bg-card border-border text-center text-2xl font-semibold"
                   autoFocus
                 />
               </div>
@@ -148,7 +135,7 @@ const AuthScreen = () => {
               <Button
                 type="submit"
                 disabled={loading || code.length !== 4}
-                className="w-full h-12 rounded-xl text-base font-semibold"
+                className="w-full h-12 rounded-sm text-base font-semibold"
               >
                 {loading ? (
                   <Loader2 className="w-5 h-5 animate-spin" />
@@ -157,13 +144,14 @@ const AuthScreen = () => {
                 )}
               </Button>
 
-              <button
+              <Button
+                variant="link"
                 type="button"
                 onClick={() => { setStep('email'); setCode(''); setError(''); }}
                 className="w-full text-center text-sm text-primary font-medium mt-2"
               >
                 Изменить email
-              </button>
+              </Button>
             </form>
           )}
         </div>

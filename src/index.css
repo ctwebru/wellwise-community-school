@@ -1,43 +1,44 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Lora:wght@400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    /* Warm golden palette inspired by prudpit.ru */
-    --background: 38 35% 97%;
-    --foreground: 220 25% 14%;
+    --background: 43 30% 95%;
+    --foreground: 72 7% 14%;
 
-    --card: 36 30% 96%;
-    --card-foreground: 220 25% 14%;
+    --card: 43 30% 97%;
+    --card-foreground: 72 7% 14%;
 
     --popover: 0 0% 100%;
     --popover-foreground: 220 25% 14%;
 
     /* Warm gold — trust, warmth, expertise */
-    --primary: 33 42% 48%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 36 43% 61%;
+    --primary-foreground: 72 7% 10%;
 
-    --secondary: 36 25% 92%;
-    --secondary-foreground: 220 20% 20%;
+    --secondary: 42 18% 90%;
+    --secondary-foreground: 72 7% 14%;
 
-    --muted: 36 18% 93%;
-    --muted-foreground: 220 12% 48%;
+    --muted: 42 12% 89%;
+    --muted-foreground: 91 7% 43%;
 
     /* Deep teal — calm, medical expertise, depth */
-    --accent: 195 45% 33%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 91 7% 43%;
+    --accent-foreground: 43 30% 97%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 36 18% 88%;
-    --input: 36 18% 88%;
-    --ring: 33 42% 48%;
+    --border: 40 12% 81%;
+    --input: 40 12% 81%;
+    --ring: 36 43% 61%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
+    --overlay-foreground: 43 30% 97%;
+    --overlay-muted: 43 20% 85%;
+    --success: 127 25% 39%;
+    --success-foreground: 43 30% 97%;
 
     /* Premium / School section — deep gold */
     --premium: 33 55% 38%;
@@ -56,8 +57,8 @@
     --shadow-lg: 0 8px 24px -4px hsl(33 30% 30% / 0.1);
 
     /* Typography */
-    --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
-    --font-serif: 'Lora', Georgia, serif;
+    --font-sans: 'Manrope', system-ui, -apple-system, sans-serif;
+    --font-heading: 'Sora', system-ui, sans-serif;
 
     /* Sidebar defaults */
     --sidebar-background: 36 30% 97%;
@@ -119,8 +120,8 @@
 }
 
 @layer utilities {
-  .font-serif {
-    font-family: var(--font-serif);
+  .font-heading, .font-serif {
+    font-family: var(--font-heading);
   }
 
   .text-reading {
@@ -157,4 +158,15 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  .editorial-label { @apply text-[10px] font-semibold uppercase text-muted-foreground; letter-spacing: .12em; }
+  .editorial-number { @apply absolute -left-1 -top-9 font-heading text-6xl font-extrabold text-muted/70; }
+  .round-arrow { @apply grid h-11 w-11 shrink-0 place-items-center rounded-full border border-border text-foreground; }
+  .round-arrow svg { @apply h-4 w-4; }
+  .tag-gold { @apply inline-flex items-center rounded-sm bg-primary px-2 py-1 text-[10px] font-bold uppercase text-primary-foreground; letter-spacing: .08em; }
+  .tag-outline { @apply inline-flex items-center rounded-sm border border-border px-2 py-1 text-[10px] font-bold uppercase text-muted-foreground; letter-spacing: .08em; }
+  .bg-hero-overlay { background: linear-gradient(to top, hsl(var(--foreground) / .88), hsl(var(--foreground) / .08) 65%); }
+  .bg-top-shade { background: linear-gradient(to bottom, hsl(var(--foreground) / .42), transparent 40%); }
+  .prose-diaita { @apply mt-8 space-y-5 text-[15px] leading-7 text-foreground; }
+  .prose-diaita h2 { @apply pt-3 font-heading text-2xl font-semibold leading-tight; }
 }
