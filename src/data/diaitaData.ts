@@ -1,5 +1,5 @@
 export type AccessState = 'free' | 'trial' | 'pro' | 'expired';
-export type MainTab = 'home' | 'akme' | 'inside' | 'me';
+export type MainTab = 'home' | 'akme' | 'inside' | 'courses' | 'me';
 export type Screen = MainTab | 'onboarding' | 'goals' | 'health-profile' | 'questionnaire' | 'result' | 'recommendation' | 'practice' | 'configure' | 'calendar' | 'profile' | 'content' | 'paywall' | 'search';
 
 export const goals = ['Здоровое пищеварение', 'Больше энергии', 'Спокойный сон', 'Регулярное движение'];
